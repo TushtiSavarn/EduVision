@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduVision Dashboard</title>
+
+    <link rel="icon" type="image/png" href="assets/images/Eduvision.png">
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy1: "#021024",
+                        navy2: "#052659",
+                        blueMuted: "#5483B3",
+                        blueSoft: "#7DA0CA",
+                        blueIce: "#C1E8FF"
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- Fade Animation -->
+    <style>
+        .fade {
+            animation: fadeIn 0.9s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-b from-navy1 via-navy2 to-blueMuted min-h-screen text-blueIce flex">
+
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-white/10 backdrop-blur-lg border-r border-white/20 p-8 space-y-8 shadow-xl fade">
+
+        <h2 class="text-3xl font-bold tracking-wide text-blueIce">EduVision</h2>
+
+        <nav class="space-y-5 text-blueSoft">
+            <button onclick="loadPage('dashboard')" class="block hover:text-blueIce transition">Dashboard</button>
+            <button onclick="loadPage('profile')" class="block hover:text-blueIce transition">Profile</button>
+            <button onclick="loadPage('attendance')" class="block hover:text-blueIce transition">Attendance</button>
+            <button onclick="loadPage('assignments')" class="block hover:text-blueIce transition">Assignments</button>
+            <button onclick="loadPage('chat')" class="block hover:text-blueIce transition">Chat</button>
+
+            <button class="block text-red-400 hover:text-red-300 pt-5 transition">Logout</button>
+        </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 p-12 space-y-10 fade">
+
+        <!-- HEADER SECTION -->
+        <div class="bg-white/10 border border-white/20 rounded-3xl backdrop-blur-md shadow-xl p-10 flex justify-between items-center">
+
+            <!-- Text -->
+            <div>
+                <h1 class="text-4xl font-bold">Hi, Tushti 👋</h1>
+                <p class="text-blueSoft text-lg mt-2">Ready to start your day?</p>
+            </div>
+
+            <!-- Illustration -->
+            <img src="assets/images/girl.jpeg" alt="Girl studying"
+                class="w-48 drop-shadow-xl hover:scale-105 transition">
+        </div>
+
+
+        <!-- OVERVIEW CARDS (Optional small stats bar) -->
+        <div class="grid grid-cols-3 gap-8 fade">
+            <div class="bg-white/10 p-6 rounded-2xl border border-white/20 shadow hover:scale-105 transition">
+                <h3 class="text-xl font-semibold">Attendance</h3>
+                <p class="text-3xl mt-3 font-bold">82%</p>
+            </div>
+
+            <div class="bg-white/10 p-6 rounded-2xl border border-white/20 shadow hover:scale-105 transition">
+                <h3 class="text-xl font-semibold">Assignments</h3>
+                <p class="text-3xl mt-3 font-bold">77%</p>
+            </div>
+
+            <div class="bg-white/10 p-6 rounded-2xl border border-white/20 shadow hover:scale-105 transition">
+                <h3 class="text-xl font-semibold">Messages</h3>
+                <p class="text-3xl mt-3 font-bold">12</p>
+            </div>
+        </div>
+
+
+        <!-- DYNAMIC CHANGING SECTION -->
+        <div id="dynamicContent"
+            class="bg-white/10 border border-white/20 rounded-3xl backdrop-blur-md shadow-xl p-10 fade">
+
+            <h2 class="text-3xl font-bold mb-4">Dashboard</h2>
+            <p class="text-blueSoft text-lg">This is your main dashboard area. Click options from the left menu to change this content.</p>
+
+        </div>
+
+    </main>
+
+
+    <!-- JavaScript for changing content -->
+    <script>
+        function loadPage(page) {
+            const box = document.getElementById("dynamicContent");
+
+            if (page === "dashboard") {
+                box.innerHTML = `
+                    <h2 class="text-3xl font-bold mb-4">Dashboard</h2>
+                    <p class="text-blueSoft text-lg">Your daily overview will appear here.</p>
+                `;
+            }
+
+            if (page === "profile") {
+                box.innerHTML = `
+                    <h2 class="text-3xl font-bold mb-4">Profile</h2>
+                    <p class="text-blueSoft text-lg">Update your personal information, photo and details here.</p>
+                `;
+            }
+
+            if (page === "attendance") {
+                box.innerHTML = `
+                    <h2 class="text-3xl font-bold mb-4">Attendance</h2>
+                    <p class="text-blueSoft text-lg">Your attendance history and monthly charts will appear here.</p>
+                `;
+            }
+
+            if (page === "assignments") {
+                box.innerHTML = `
+                    <h2 class="text-3xl font-bold mb-4">Assignments</h2>
+                    <p class="text-blueSoft text-lg">View your pending and completed assignments here.</p>
+                `;
+            }
+
+            if (page === "chat") {
+                box.innerHTML = `
+                    <h2 class="text-3xl font-bold mb-4">Chat</h2>
+                    <p class="text-blueSoft text-lg">Chats, messages and announcements will show here.</p>
+                `;
+            }
+
+            box.classList.remove("fade");
+            void box.offsetWidth;
+            box.classList.add("fade");
+        }
+    </script>
+
+</body>
+
+</html>

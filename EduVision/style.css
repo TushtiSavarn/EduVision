@@ -1,0 +1,263 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* BODY BACKGROUND (same as signup) */
+.auth-body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(
+        to bottom,
+        #021024,
+        #052659,
+        #5483B3
+    );
+}
+
+/* MAIN CARD */
+.auth-wrapper {
+    width: 900px;
+    max-width: 95%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-radius: 20px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+}
+
+/* LEFT SIDE */
+.auth-left {
+    background: linear-gradient(to bottom, #2563eb, #1e40af);
+    color: white;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-left img {
+    width: 80px;
+    margin-bottom: 15px;
+}
+
+.auth-left h1 {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.auth-left p {
+    margin-top: 10px;
+    font-size: 18px;
+    opacity: 0.9;
+    text-align: center;
+}
+
+/* RIGHT SIDE */
+.auth-right {
+    background: linear-gradient(to bottom, #ffffff, #C1E8FF, #ffffff);
+    padding: 50px;
+}
+
+.auth-right h2 {
+    font-size: 32px;
+    color: #052659;
+    margin-bottom: 30px;
+}
+
+/* INPUTS */
+.auth-right input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #c7d2fe;
+    font-size: 15px;
+}
+
+.auth-right input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 6px rgba(37,99,235,0.4);
+}
+
+/* BUTTON */
+.auth-right button {
+    width: 100%;
+    padding: 12px;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.auth-right button:hover {
+    background-color: #1e40af;
+}
+
+/* MESSAGE */
+#msg {
+    margin-top: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* FORGOT PASSWORD */
+.forgot-password {
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.forgot-password a {
+    font-size: 13px;
+    color: #2563eb;
+    text-decoration: none;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+
+/* FADE ANIMATION (same as signup) */
+.fade {
+    animation: fadeIn 0.9s ease forwards;
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.auth-body {
+    background-color: #021024;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-wrapper {
+    display: flex;
+    width: 900px;
+    height: 500px;
+    background-color: #052659;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(0,0,0,0.5);
+}
+
+/* LEFT */
+.auth-left {
+    width: 45%;
+    background-color: #021024;
+    color: #C1E8FF;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-left img {
+    width: 120px;
+    margin-bottom: 10px;
+}
+
+.auth-left p {
+    color: #7DA0CA;
+}
+
+/* RIGHT */
+.auth-right {
+    width: 55%;
+    padding: 50px;
+    color: #C1E8FF;
+}
+
+.auth-right h2 {
+    margin-bottom: 20px;
+}
+
+.auth-right input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    background-color: #021024;
+    border: 1px solid #5483B3;
+    border-radius: 8px;
+    color: #C1E8FF;
+}
+
+.auth-right input::placeholder {
+    color: #7DA0CA;
+}
+
+.role-label {
+    font-size: 16px;
+    color: #7DA0CA;
+}
+
+.role-select {
+    width: 100%;
+    padding: 12px;
+    margin: 5px 0 15px;
+    background-color: #021024;
+    border: 1px solid #5483B3;
+    border-radius: 8px;
+    color: #C1E8FF;
+}
+
+.role-select option {
+    background-color: #021024;
+}
+
+.forgot-password {
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.forgot-password a {
+    color: #7DA0CA;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #5483B3;
+    border: none;
+    border-radius: 8px;
+    color: #021024;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #7DA0CA;
+}
+
+#msg {
+    margin-top: 12px;
+    font-size: 14px;
+}
