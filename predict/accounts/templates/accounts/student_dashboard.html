@@ -1,0 +1,341 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard | EduVision</title>
+    <link rel="icon" href="{% static 'accounts/images/logo.jpg' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* ---------- GLOBAL ---------- */
+        body {
+            background: linear-gradient(135deg, #081a33 0%, #0d2a57 100%);
+            color: #e6f0ff;
+            font-family: "Segoe UI", system-ui, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+        }
+        
+        * { transition: all 0.25s ease; box-sizing: border-box; }
+
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 40px 20px; 
+        }
+
+        .logo { 
+            font-size: 24px; 
+            font-weight: 800; 
+            margin-bottom: 30px; 
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        /* ---------- REUSABLE GLASS CARD ---------- */
+        .card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            animation: fadeUp 0.6s ease-out;
+        }
+        .card:hover { border-color: rgba(84, 131, 179, 0.4); }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ---------- USER PROFILE CARD ---------- */
+        .user-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(145deg, rgba(5, 38, 149, 0.3), rgba(84, 131, 179, 0.1));
+        }
+
+        .user-text h1 { font-size: 32px; margin: 0; }
+        .user-text p { margin: 5px 0 0; color: #9fb3d9; font-size: 16px; }
+
+        .user-img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #5483B3;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        /* ---------- STATUS TAGS ---------- */
+        .subjects { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 25px; }
+        .subject-card {
+            background: rgba(84, 131, 179, 0.2);
+            border: 1px solid rgba(84, 131, 179, 0.3);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .performance {
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .excellent { background: #10b981; color: #fff; box-shadow: 0 0 15px rgba(16, 185, 129, 0.3); }
+        .average { background: #f59e0b; color: #fff; box-shadow: 0 0 15px rgba(245, 158, 11, 0.3); }
+        .poor { background: #ef4444; color: #fff; box-shadow: 0 0 15px rgba(239, 68, 68, 0.3); }
+
+        /* ---------- ALERTS ---------- */
+        .alert {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            color: #fca5a5;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ---------- GLASS TABLE ---------- */
+        .table-wrapper { overflow-x: auto; padding: 0; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            color: #e6f0ff;
+        }
+        th {
+            background: rgba(255, 255, 255, 0.05);
+            color: #5483B3;
+            padding: 15px;
+            font-size: 14px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        td { padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-size: 15px; }
+        tr:hover td { background: rgba(255, 255, 255, 0.03); }
+
+        /* Row Highlighting */
+        .weak td { color: #fca5a5; font-weight: 600; }
+        .strong td { color: #6ee7b7; font-weight: 600; }
+
+        /* ---------- BUTTONS ---------- */
+        .logout-btn {
+            background: transparent;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+            padding: 10px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .logout-btn:hover { background: #ef4444; color: white; border-color: #ef4444; }
+
+        /* ---------- CHAT SYSTEM ---------- */
+        #chatToggle {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 60px; height: 60px;
+            background: linear-gradient(135deg, #052695, #5483B3);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .chatbot {
+            position: fixed; bottom: 100px; right: 30px;
+            width: 350px; height: 500px;
+            background: #0d2a57;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            display: none; flex-direction: column;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            z-index: 1000;
+            overflow: hidden;
+        }
+        
+        .chat-header { background: rgba(255,255,255,0.05); padding: 15px; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .chatbox { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
+        .chatbox p { margin: 0; padding: 10px 14px; border-radius: 12px; font-size: 14px; max-width: 85%; }
+        .bot-msg { background: rgba(255,255,255,0.05); align-self: flex-start; }
+        .user-msg { background: #052695; align-self: flex-end; }
+
+        .quick-btns { display: flex; gap: 5px; padding: 10px; background: rgba(0,0,0,0.2); }
+        .quick-btns button { 
+            flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); 
+            color: #fff; padding: 8px; border-radius: 8px; cursor: pointer; font-size: 12px;
+        }
+        .quick-btns button:hover { background: #5483B3; }
+
+        @media(max-width: 768px) {
+            .container { padding: 20px; }
+            .user-card { flex-direction: column; text-align: center; gap: 20px; }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="logo">EduVision</div>
+
+    <div class="card user-card">
+        <div class="user-text">
+            <h1>Hi, {{ request.user.first_name }} 👋</h1>
+            <p id="greeting"></p>
+            <p style="font-size: 14px; color: #5483B3;">Email Id: {{ request.user.username }}</p>
+        </div>
+        <img src="{% static 'accounts/images/girl.jpeg' %}" class="user-img">
+    </div>
+
+    {% if weak_subjects %}
+    <div class="alert">
+        <span>⚠️</span>
+        <div>
+            <strong>Attention Needed:</strong> 
+            {% for w in weak_subjects %}{{ w.subject }}{% if not forloop.last %}, {% endif %}{% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="subjects">
+        {% for d in data %}
+        <div class="subject-card">{{ d.subject }}</div>
+        {% endfor %}
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+        
+        <div class="card" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
+            <h3 style="margin-top:0;">Academic Standing</h3>
+            <div class="performance {% if category == 'Excellent' %}excellent{% elif category == 'Average' %}average{% else %}poor{% endif %}">
+                {{ category }}
+            </div>
+            <p style="margin-top:15px; font-size:14px; color:#9fb3d9;">🏆 Rank: <strong>{{ rank }}</strong> | Avg: <strong>{{ class_avg|floatformat:1 }}%</strong></p>
+        </div>
+
+        <div class="card">
+            <h3 style="margin-top:0;">🧠 AI Insight</h3>
+            <p style="line-height:1.6; color:#cfe3ff; font-size:14px; margin:0;">{{ reason }}</p>
+        </div>
+
+    </div>
+
+    <div class="card">
+        <h3>📊 Comparative Analytics</h3>
+        <canvas id="studentChart" height="100"></canvas>
+    </div>
+
+    <div class="card table-wrapper">
+        <h3 style="padding: 20px 20px 0;">Subject Breakdown</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Subject ↕</th>
+                    <th onclick="sortTable(1)">Marks ↕</th>
+                    <th onclick="sortTable(2)">Attendance ↕</th>
+                    <th onclick="sortTable(3)">Assignment ↕</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in data %}
+                <tr class="{% if d.marks < 40 %}weak{% elif d.marks > 75 %}strong{% endif %}">
+                    <td>{{ d.subject }}</td>
+                    <td>{{ d.marks }}%</td>
+                    <td>{{ d.attendance }}%</td>
+                    <td>{{ d.assignment }}%</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">Logout Session</button>
+        </form>
+        <div class="footer">EduVision © 2026</div>
+    </div>
+</div>
+
+<div id="chatToggle">💬</div>
+<div class="chatbot" id="chatbotBox">
+    <div class="chat-header">🤖 AI Assistant</div>
+    <div id="chatbox" class="chatbox"></div>
+    <div class="quick-btns">
+        <button onclick="quickMsg('Performance Overview')">📊 Status</button>
+        <button onclick="quickMsg('How to improve?')">🚀 Tips</button>
+        <button onclick="quickMsg('Attendance Check')">📅 Attendance</button>
+    </div>
+</div>
+
+<script>
+    // Greeting Script
+    const hour = new Date().getHours();
+    let greet = hour < 12 ? "🌅 Good Morning" : hour < 18 ? "☀️ Good Afternoon" : "🌙 Good Evening";
+    document.getElementById("greeting").innerText = greet;
+
+    // Chatbot Script
+    const chatbox = document.getElementById("chatbox");
+    const toggleBtn = document.getElementById("chatToggle");
+    const chatbotBox = document.getElementById("chatbotBox");
+
+    chatbox.innerHTML += "<p class='bot-msg'>Hi! I can help you analyze your grades. Tap a shortcut below!</p>";
+
+    toggleBtn.addEventListener("click", () => {
+        chatbotBox.style.display = (chatbotBox.style.display === "flex") ? "none" : "flex";
+    });
+
+    window.quickMsg = function(text){
+        chatbox.innerHTML += `<p class='user-msg'>${text}</p>`;
+        chatbox.scrollTop = chatbox.scrollHeight;
+
+        fetch("/chatbot/",{
+            method:"POST",
+            headers:{"Content-Type":"application/x-www-form-urlencoded", "X-CSRFToken":"{{ csrf_token }}"},
+            body:"message="+text
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            chatbox.innerHTML += `<p class='bot-msg'>${data.response}</p>`;
+            chatbox.scrollTop = chatbox.scrollHeight;
+        });
+    };
+
+    // Chart Script with Premium Colors
+    new Chart(document.getElementById('studentChart'), {
+        type: 'bar',
+        data: {
+            labels: {{ subjects|safe }},
+            datasets: [
+                { label: 'Marks', data: {{ marks_data|safe }}, backgroundColor: '#5483B3' },
+                { label: 'Attendance', data: {{ attendance_data|safe }}, backgroundColor: 'rgba(255, 255, 255, 0.2)' },
+                { label: 'Assignment', data: {{ assignment_data|safe }}, backgroundColor: '#052695' }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { labels: { color: "#b8cae6", font: { weight: 'bold' } } } },
+            scales: {
+                x: { grid: { display: false }, ticks: { color: "#b8cae6" } },
+                y: { grid: { color: "rgba(255,255,255,0.05)" }, ticks: { color: "#b8cae6" }, beginAtZero: true }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

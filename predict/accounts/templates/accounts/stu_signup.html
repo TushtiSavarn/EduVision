@@ -1,0 +1,225 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Signup | EduVision</title>
+    <link rel="icon" href="{% static 'accounts/images/logo.jpg' %}">
+
+    <style>
+        /* ---------- GLOBAL ---------- */
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            /* Consistent Home Page Gradient */
+            background: linear-gradient(135deg, #081a33 0%, #0d2a57 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #e6f0ff;
+            overflow-x: hidden;
+        }
+
+        /* ---------- ANIMATION ---------- */
+        .fade {
+            animation: fadeIn 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ---------- WRAPPER ---------- */
+        .signup-wrapper {
+            width: 95%;
+            max-width: 950px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            overflow: hidden;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+        }
+
+        /* ---------- LEFT PANEL ---------- */
+        .left-panel {
+            background: linear-gradient(145deg, #052695, #5483B3);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .left-panel img {
+            width: 90px;
+            height: 90px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            object-fit: cover;
+        }
+
+        .left-panel h1 {
+            margin: 10px 0;
+            font-size: 34px;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .left-panel p {
+            opacity: 0.9;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        /* ---------- RIGHT PANEL ---------- */
+        .right-panel {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .right-panel h2 {
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .right-panel p.subtitle {
+            color: #9fb3d9;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        /* ---------- FORM ---------- */
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 18px;
+            margin-bottom: 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        input:focus {
+            border-color: #5483B3;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 15px rgba(84, 131, 179, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* ---------- BUTTON ---------- */
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #052695, #5483B3);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(5, 38, 149, 0.4);
+            filter: brightness(1.1);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        /* ---------- FOOTER ---------- */
+        .footer {
+            margin-top: 30px;
+            color: #5483B3;
+            font-size: 13px;
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 768px) {
+            .signup-wrapper {
+                grid-template-columns: 1fr;
+                width: 90%;
+            }
+            .input-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            .left-panel { padding: 40px 20px; }
+            .right-panel { padding: 40px 30px; }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="signup-wrapper fade">
+
+    <div class="left-panel">
+        <img src="{% static 'accounts/images/logo.jpg' %}" alt="EduVision Logo">
+        <h1>EduVision</h1>
+        <p>Your Journey to Academic <br>Excellence Starts Here.</p>
+    </div>
+
+    <div class="right-panel">
+        <h2>Student Signup</h2>
+        <p class="subtitle">Join the smart performance tracking system.</p>
+
+        <form method="POST" action="{% url 'stu_signup' %}">
+            {% csrf_token %}
+
+            <input type="text" name="name" placeholder="Full Name" required minlength="3">
+            
+            <div class="input-row">
+                <input type="text" name="degree" placeholder="Degree (e.g. MCA)">
+                <input type="text" name="smartid" placeholder="Smart ID" required>
+            </div>
+
+            <input type="email" name="email" placeholder="Email Address" required>
+            <input type="password" name="password" placeholder="Create Password" required minlength="6">
+
+            <button type="submit">Create Account</button>
+        </form>
+    </div>
+
+</div>
+
+<div class="footer">
+    EduVision © 2026 — Predictive Analytics for Smarter Learning.
+</div>
+
+</body>
+</html>
