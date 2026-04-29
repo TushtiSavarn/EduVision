@@ -93,7 +93,7 @@ Models used:
 - Logistic Regression  
 - Decision Tree  
 - Random Forest  
-
+We finaly used Random forest for prediction and analysis.
 ---
 
 ### 5. Model Evaluation
@@ -144,7 +144,7 @@ python manage.py runserver
 ```
 
 ## 📂 Project Structure
-
+```
 EduVision/
 │── predict/        # Django project
 │── ml/             # ML logic
@@ -152,7 +152,7 @@ EduVision/
 │── assets/         # Graphs & visuals
 │── docs/           # Project reports
 │── README.md
-
+```
 ## 👥 Team Contribution
 
 This project was developed as part of an MCA in-house project by:
@@ -175,4 +175,4 @@ This project was developed as part of an MCA in-house project by:
 
 ## 👩‍💻 Author
 
-Tushti Savarn(https://www.linkedin.com/in/tushti-savarn/)
+Tushti Savarn (https://www.linkedin.com/in/tushti-savarn/) (https://medium.com/@tushtisavran)
