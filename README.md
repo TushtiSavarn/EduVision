@@ -93,13 +93,19 @@ Models used:
 - Logistic Regression  
 - Decision Tree  
 - Random Forest  
-We finaly used Random forest for prediction and analysis.
+
+**Final model used:** Random Forest (best performance)
+
 ---
 
 ### 5. Model Evaluation
-- Accuracy  
+- Accuracy: **85%**
 - Confusion Matrix  
 - Performance comparison  
+
+The Random Forest model achieved the highest accuracy of **89%**, outperforming other models in predicting student performance categories.
+
+Note: Accuracy is based on synthetically generated data and may vary on real-world datasets.
 
 ---
 
