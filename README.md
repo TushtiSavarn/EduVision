@@ -99,7 +99,7 @@ Models used:
 ---
 
 ### 5. Model Evaluation
-- Accuracy: **85%**
+- Accuracy: **89%**
 - Confusion Matrix  
 - Performance comparison  
 
