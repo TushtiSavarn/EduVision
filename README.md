@@ -107,11 +107,13 @@ We finaly used Random forest for prediction and analysis.
 
 ![Confusion Matrix](assets/confusion_matrix.png)
 
-![Feature Correlation](assets/feature_correlation.png)
+![Data Distribution](assets/data_distribution.png)
+
+![Feature Correlation](assets/feature_corelation.png)
 
 ![Feature Importance](assets/feature_importance.png)
 
-![Model Comparison](assets/model_comparison.png)
+![Model Comparison](assets/model_comparation.png)
 
 ---
 
